@@ -1,0 +1,30 @@
+# --- Compilación y binarios de Java ---
+*.class
+*.log
+bin/
+build/
+dist/
+target/
+
+# --- NetBeans ---
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbcfg/
+netbeanstmp/
+
+# --- IDEs alternativos (por si algún compañero usa IntelliJ o Eclipse) ---
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# --- Sistema operativo ---
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
+Desktop.ini
