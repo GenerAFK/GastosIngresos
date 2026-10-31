@@ -2,7 +2,8 @@
 
 # 💰 Gestor de Gastos e Ingresos (DAM - 2º Trimestre)
 
-Aplicación de escritorio desarrollada en **Java** utilizando **Java Swing** para las interfaces gráficas y aplicando una arquitectura limpia **MVC (Modelo-Vista-Controlador)**. Proyecto colaborativo para control de versiones con Git y GitHub.
+Aplicación de escritorio desarrollada en **Java** utilizando **Java Swing** para las interfaces gráficas y aplicando una arquitectura limpia **MVC (Modelo-Vista-Controlador)**.
+Proyecto colaborativo para control de versiones con Git y GitHub.
 
 ---
 
@@ -27,21 +28,25 @@ A continuación se detalla qué debe programar cada compañero en su respectiva 
 1. 🚀 Paquete app
 GastosIngresos.java
 
-Qué debe hacer: Contiene el método main. Se encarga exclusivamente de inicializar el hilo de Swing y arrancar la primera pantalla de la aplicación (InterfazBienvenida).
+Qué debe hacer: Contiene el método main. Se encarga exclusivamente de inicializar el hilo de Swing y arrancar la primera pantalla
+ de la aplicación (InterfazBienvenida).
 
 2. 📊 Paquete modelo
 Gastos.java
 
-Qué debe hacer: Representa la entidad de un gasto. Debe almacenar atributos como concepto, cantidad y fecha. Incluir constructor, getters, setters y el método toString().
+Qué debe hacer: Representa la entidad de un gasto. Debe almacenar atributos como concepto, cantidad y fecha. Incluir constructor,
+ getters, setters y el método toString().
 
 Ingresos.java
 
-Qué debe hacer: Representa la entidad de un ingreso con los mismos atributos base que los gastos (concepto, cantidad, fecha). (Opcional: Si queréis refinarlo, podéis crear una clase abstracta padre llamada Transaccion).
+Qué debe hacer: Representa la entidad de un ingreso con los mismos atributos base que los gastos (concepto, cantidad, fecha).
+ (Opcional: Si queréis refinarlo, podéis crear una clase abstracta padre llamada Transacción).
 
 3. 🎮 Paquete controlador
 ControladorGastos.java
 
-Qué debe hacer: Recoger los datos introducidos en InterfazGastos, validar que la cantidad sea numérica y mayor que cero, y gestionar el almacenamiento del gasto.
+Qué debe hacer: Recoger los datos introducidos en InterfazGastos, validar que la cantidad sea numérica y mayor que cero,
+y gestionar el almacenamiento del gasto.
 
 ControladorIngresos.java
 
@@ -49,7 +54,8 @@ Qué debe hacer: Validar y procesar de forma equivalente los datos introducidos 
 
 ControladorResumen.java
 
-Qué debe hacer: Calcular los totales de gastos e ingresos, así como el balance final (Ingresos - Gastos) para enviárselos a la pantalla de resumen.
+Qué debe hacer: Calcular los totales de gastos e ingresos, así como el balance final (Ingresos - Gastos) para enviárselos
+ a la pantalla de resumen.
 
 4. 🖥️ Paquete vista (Java Swing)
 InterfazBienvenida.java
@@ -58,7 +64,8 @@ Qué debe hacer: Pantalla Splash o de presentación que da acceso al menú princ
 
 InterfazGastos.java
 
-Qué debe hacer: Formulario visual con campos de texto para el concepto, cantidad y fecha, acompañado de un botón "Guardar Gasto" que invocará al ControladorGastos.
+Qué debe hacer: Formulario visual con campos de texto para el concepto, cantidad y fecha, acompañado de un botón "Guardar Gasto"
+ que invocará al ControladorGastos.
 
 InterfazIngresos.java
 
