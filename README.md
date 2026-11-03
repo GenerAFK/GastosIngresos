@@ -1,93 +1,256 @@
-# GastosIngresos
+# 💰 GastosIngresos
 
-# 💰 Gestor de Gastos e Ingresos (DAM - 2º Trimestre)
+<p align="center">
+  <img src="src/main/resources/imagenes/logo.png" alt="Logo GastosIngresos" width="180">
+</p>
 
-Aplicación de escritorio desarrollada en **Java** utilizando **Java Swing** para las interfaces gráficas y aplicando una arquitectura limpia **MVC (Modelo-Vista-Controlador)**.
-Proyecto colaborativo para control de versiones con Git y GitHub.
+<h3 align="center">Aplicación de escritorio para gestionar ingresos y gastos personales</h3>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-Swing-orange?logo=openjdk" alt="Java Swing">
+  <img src="https://img.shields.io/badge/Maven-Build-blue?logo=apachemaven" alt="Maven">
+  <img src="https://img.shields.io/badge/IDE-NetBeans-blue?logo=apache-netbeans-ide" alt="NetBeans">
+</p>
 
 ---
 
-## 📂 Estructura del Proyecto y Paquetes
+## 📌 Descripción del proyecto
 
-El código fuente está organizado de la forma modular para evitar conflictos al trabajar en equipo:
+**GastosIngresos** es una aplicación de escritorio desarrollada en Java mediante Swing.
+Su objetivo es permitir al usuario gestionar sus ingresos y gastos,
+así como consultar un resumen de su situación económica.
+
+El proyecto se desarrolla de forma colaborativa utilizando Git y GitHub,
+con una arquitectura organizada por paquetes para separar las interfaces gráficas,
+los modelos de datos y la lógica de control.
+
+## 🛠️ Tecnologías utilizadas
+
+| Tecnología | Uso |
+|---|---|
+| ☕ Java | Lenguaje de programación. |
+| 🖥️ Java Swing | Desarrollo de interfaces gráficas. |
+| 📦 Maven | Gestión y configuración del proyecto. |
+| 💻 NetBeans | Entorno de desarrollo. |
+| 🌿 Git | Control de versiones. |
+| 🐙 GitHub | Colaboración y alojamiento del repositorio. |
+
+## 📁 Estructura del proyecto
+
+El proyecto utiliza la estructura estándar de Maven:
 
 ```text
-src/
-└── com/
-    └── mycompany/
-        └── gastosingresos/
-            ├── app/               <-- Punto de entrada de la aplicación
-            ├── modelo/            <-- Clases de negocio / entidades de datos
-            ├── vista/             <-- Interfaces gráficas (Java Swing - JFrame)
-            └── controlador/       <-- Lógica de negocio, eventos y validaciones
+GastosIngresos/
+│
+├── 📂 src/
+│   ├── 📂 main/
+│   │   ├── 📂 java/
+│   │   │   └── 📂 com/mycompany/gastosingresos/
+│   │   │       ├── 📂 config/
+│   │   │       │   └── ConfiguracionVentanas.java
+│   │   │       │
+│   │   │       ├── 📂 controlador/
+│   │   │       │   ├── ControladorGastos.java
+│   │   │       │   ├── ControladorIngresos.java
+│   │   │       │   └── ControladorResumen.java
+│   │   │       │
+│   │   │       ├── 📂 modelo/
+│   │   │       │   ├── Gastos.java
+│   │   │       │   └── Ingresos.java
+│   │   │       │
+│   │   │       ├── 📂 vista/
+│   │   │       │   ├── InterfazBienvenida.java
+│   │   │       │   ├── InterfazCarga.java
+│   │   │       │   ├── InterfazGastos.java
+│   │   │       │   ├── InterfazIngresos.java
+│   │   │       │   └── InterfazResumen.java
+│   │   │       │
+│   │   │       └── GastosIngresos.java
+│   │   │
+│   │   └── 📂 resources/
+│   │       └── 📂 imagenes/
+│   │           ├── icono_balances.png
+│   │           ├── icono_gastos.png
+│   │           ├── icono_ingresos.png
+│   │           └── logo.png
+│   │
+│   └── 📂 test/
+│
+├── 📂 target/
+├── .gitignore
+├── README.md
+└── pom.xml
+```
 
+### 🧩 Organización de paquetes
 
-👥 Guía de Tareas por Clase (Para el Equipo)
-A continuación se detalla qué debe programar cada compañero en su respectiva clase/paquete:
+| Paquete | Responsabilidad |
+|---|---|
+| ⚙️ `config` | Configuraciones comunes de la aplicación y sus ventanas. |
+| 🎮 `controlador` | Gestión de eventos, validaciones y comunicación entre vistas y modelos. |
+| 📊 `modelo` | Clases que representan los datos de ingresos y gastos. |
+| 🖥️ `vista` | Interfaces gráficas desarrolladas con Java Swing. |
+| 🚀 Paquete principal | Contiene el punto de entrada de la aplicación. |
 
-1. 🚀 Paquete app
-GastosIngresos.java
+## 🚧 Estado actual del desarrollo
 
-Qué debe hacer: Contiene el método main. Se encarga exclusivamente de inicializar el hilo de Swing y arrancar la primera pantalla
- de la aplicación (InterfazBienvenida).
+El proyecto ya cuenta con la estructura de paquetes y las clases principales creadas. 
+Actualmente, el trabajo está centrado en el desarrollo de las interfaces gráficas.
 
-2. 📊 Paquete modelo
-Gastos.java
+### 🖥️ Interfaces gráficas — `vista`
 
-Qué debe hacer: Representa la entidad de un gasto. Debe almacenar atributos como concepto, cantidad y fecha. Incluir constructor,
- getters, setters y el método toString().
+| Clase | Funcionalidad |
+|---|---|
+| 🚀 `InterfazCarga.java` | Pantalla inicial de carga de la aplicación. |
+| 🏠 `InterfazBienvenida.java` | Pantalla principal desde la que se accede a las distintas secciones. |
+| 💸 `InterfazGastos.java` | Formulario para registrar gastos. |
+| 💵 `InterfazIngresos.java` | Formulario para registrar ingresos. |
+| 📈 `InterfazResumen.java` | Pantalla destinada a mostrar los totales y el balance económico. |
 
-Ingresos.java
+### 📦 Modelos — `modelo`
 
-Qué debe hacer: Representa la entidad de un ingreso con los mismos atributos base que los gastos (concepto, cantidad, fecha).
- (Opcional: Si queréis refinarlo, podéis crear una clase abstracta padre llamada Transacción).
+**💸 Gastos.java**
+- Representar los datos de un gasto.
+- Almacenar concepto, cantidad y fecha.
+- Incorporar constructor, getters, setters y `toString()`.
 
-3. 🎮 Paquete controlador
-ControladorGastos.java
+**💵 Ingresos.java**
+- Representar los datos de un ingreso.
+- Almacenar concepto, cantidad y fecha.
+- Incorporar constructor, getters, setters y `toString()`.
 
-Qué debe hacer: Recoger los datos introducidos en InterfazGastos, validar que la cantidad sea numérica y mayor que cero,
-y gestionar el almacenamiento del gasto.
+### 🎮 Controladores — `controlador`
 
-ControladorIngresos.java
+**💸 ControladorGastos.java**
+- Recoger los datos de la interfaz de gastos.
+- Validar que la cantidad sea numérica y mayor que cero.
+- Gestionar el registro de gastos.
 
-Qué debe hacer: Validar y procesar de forma equivalente los datos introducidos desde la interfaz de ingresos (InterfazIngresos).
+**💵 ControladorIngresos.java**
+- Recoger y validar los datos de los ingresos.
+- Gestionar su registro.
 
-ControladorResumen.java
+**📊 ControladorResumen.java**
+- Calcular el total de ingresos.
+- Calcular el total de gastos.
+- Obtener el balance final:
 
-Qué debe hacer: Calcular los totales de gastos e ingresos, así como el balance final (Ingresos - Gastos) para enviárselos
- a la pantalla de resumen.
+  `Balance = Ingresos - Gastos`
 
-4. 🖥️ Paquete vista (Java Swing)
-InterfazBienvenida.java
+### ⚙️ Configuración — `config`
 
-Qué debe hacer: Pantalla Splash o de presentación que da acceso al menú principal de la aplicación.
+**ConfiguracionVentanas.java**
+- Centralizar configuraciones comunes de las ventanas.
+- Facilitar la reutilización de elementos como el icono de la aplicación.
 
-InterfazGastos.java
+### 🚀 Punto de entrada
 
-Qué debe hacer: Formulario visual con campos de texto para el concepto, cantidad y fecha, acompañado de un botón "Guardar Gasto"
- que invocará al ControladorGastos.
+**GastosIngresos.java**
+- Contiene el método `main`.
+- Inicializa el hilo de eventos de Swing.
+- Inicia el proceso de apertura de la aplicación.
 
-InterfazIngresos.java
+## 🖼️ Recursos gráficos
 
-Qué debe hacer: Formulario visual equivalente para registrar los ingresos interactuando con su respectivo controlador.
+Las imágenes y los iconos utilizados por las interfaces se encuentran en:
 
-InterfazResumen.java
+`src/main/resources/imagenes/`
 
-Qué debe hacer: Pantalla encargada de mostrar mediante tablas o etiquetas los totales calculados por el ControladorResumen.
+Se cargan mediante rutas de recursos del proyecto para facilitar su utilización desde las distintas clases.
 
+## 👥 Colaboración y trabajo en equipo
 
-⚙️ Instrucciones para Colaborar en Git
-Haz siempre un pull antes de empezar a picar código:
+El desarrollo se organiza mediante Git y GitHub.
+Cada integrante trabajará preferentemente en una rama independiente para evitar conflictos y facilitar la integración de funcionalidades.
 
-Bash
+### 🌿 Flujo de trabajo recomendado
+
+**1. 🔄 Actualizar la rama principal**
+
+Antes de comenzar una tarea, comprobar que no existen cambios locales pendientes y actualizar la rama principal:
+
+```bash
+git checkout main
 git pull origin main
-Crea una rama para tu funcionalidad (opcional pero recomendado):
+```
 
-Bash
-git checkout -b feature/nombre-de-tu-pantalla
-Haz commits descriptivos:
+**2. 🌱 Crear una rama para la funcionalidad**
 
-Bash
+```bash
+git checkout -b feature/nombre-de-la-funcionalidad
+```
+
+Ejemplos:
+
+```bash
+git checkout -b feature/interfaz-gastos
+git checkout -b feature/interfaz-ingresos
+git checkout -b feature/interfaz-resumen
+```
+
+**3. 💾 Guardar los cambios**
+
+```bash
 git add .
 git commit -m "feat(vista): diseño inicial de la interfaz de gastos"
-git push origin feature/nombre-de-tu-pantalla
+```
+
+**4. ☁️ Subir la rama a GitHub**
+
+```bash
+git push -u origin feature/nombre-de-la-funcionalidad
+```
+
+**5. 🔀 Integrar los cambios**
+
+Cuando la funcionalidad esté terminada y probada:
+
+- Crear una Pull Request en GitHub.
+- Revisar los cambios realizados.
+- Resolver posibles conflictos.
+- Integrar la rama en `main`.
+
+### 📝 Convención para los mensajes de commit
+
+Se recomienda utilizar el siguiente formato:
+
+```text
+tipo(área): descripción del cambio
+```
+
+| Tipo | Uso |
+|---|---|
+| ✨ `feat` | Nueva funcionalidad. |
+| 🐛 `fix` | Corrección de errores. |
+| ♻️ `refactor` | Mejora o reorganización del código. |
+| 🎨 `style` | Cambios visuales o de formato. |
+| 📚 `docs` | Actualización de documentación. |
+| 🧪 `test` | Incorporación o modificación de pruebas. |
+
+Ejemplos:
+
+```bash
+git commit -m "feat(vista): crear interfaz de gastos"
+git commit -m "feat(modelo): implementar clase Gastos"
+git commit -m "fix(vista): corregir dimensiones de la ventana"
+git commit -m "docs(readme): actualizar documentación"
+```
+
+## 🎯 Objetivo final
+
+Desarrollar una aplicación de escritorio organizada, funcional y fácil de mantener que permita:
+
+- 💸 Registrar y consultar gastos.
+- 💵 Registrar y consultar ingresos.
+- 📊 Calcular los totales de ingresos y gastos.
+- 📈 Visualizar el balance económico del usuario.
+
+El desarrollo se realizará progresivamente, completando primero las interfaces gráficas y posteriormente integrando los modelos,
+controladores y funcionalidades necesarias.
+
+---
+
+<p align="center">
+  <b>💰 GastosIngresos</b><br>
+  <sub>Organiza tus finanzas de forma sencilla.</sub>
+</p>
