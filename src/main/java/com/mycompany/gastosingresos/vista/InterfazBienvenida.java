@@ -1,6 +1,6 @@
-
 package com.mycompany.gastosingresos.vista;
 
+import com.mycompany.gastosingresos.config.ConfiguracionVentanas;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import java.awt.Color;
@@ -33,6 +33,8 @@ public class InterfazBienvenida extends javax.swing.JFrame {
      */
     public InterfazBienvenida() {
         initComponents();
+        
+        ConfiguracionVentanas.aplicarIcono(this);
 
         lblIconIngresos.setIcon(
                 redimensionarIcono("/imagenes/icono_ingresos.png", 100, 100)
