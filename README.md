@@ -10,7 +10,6 @@
   <img src="https://img.shields.io/badge/Java-Swing-orange?logo=openjdk" alt="Java Swing">
   <img src="https://img.shields.io/badge/Maven-Build-blue?logo=apachemaven" alt="Maven">
   <img src="https://img.shields.io/badge/IDE-NetBeans-blue?logo=apache-netbeans-ide" alt="NetBeans">
-  <img src="https://img.shields.io/badge/Version-En%20desarrollo-yellow" alt="En desarrollo">
 </p>
 
 ---
