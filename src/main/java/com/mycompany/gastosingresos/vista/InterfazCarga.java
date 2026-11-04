@@ -172,7 +172,7 @@ public class InterfazCarga extends javax.swing.JFrame {
     }
 
     private final String[] mensajesCarga = {
-        "Nosotros te queremos sin importar cuantos 0 a la derecha tenga tu cuenta, no como tu ex...",
+        "Nosotros te queremos sin importar cuantos 0 a la izquierda tenga tu cuenta, no como tu ex...",
         "Buscando dónde se ha ido tu dinero...",
         "Calculando cuánto te queda para llegar a fin de mes...",
         "Ocultando los gastos innecesarios...",
