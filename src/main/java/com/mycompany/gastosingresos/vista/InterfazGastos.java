@@ -1,5 +1,34 @@
 package com.mycompany.gastosingresos.vista;
 
+import com.mycompany.gastosingresos.config.ConfiguracionVentanas;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.plaf.basic.BasicScrollBarUI;
+import javax.swing.plaf.basic.BasicSpinnerUI;
+import javax.swing.text.JTextComponent;
+
 public class InterfazGastos extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InterfazGastos.class.getName());
@@ -8,8 +37,485 @@ public class InterfazGastos extends javax.swing.JFrame {
      * Creates new form InterfazGastos
      */
     public InterfazGastos() {
+        
         initComponents();
+        
+        getContentPane().setLayout(new java.awt.BorderLayout());
+        getContentPane().add(jPanelGeneral, java.awt.BorderLayout.CENTER);
+        
+        ConfiguracionVentanas.aplicarIcono(this);
+
+        aplicarEstilosGastos();
+
+        pack();
+        setLocationRelativeTo(null);
     }
+    
+    // ---------- PALETA (compartida con el resto de la app + rojos) ----------
+    private static final Color FONDO = new Color(245, 247, 250);
+    private static final Color BLANCO = Color.WHITE;
+    private static final Color TEXTO = new Color(31, 41, 55);
+    private static final Color SECUNDARIO = new Color(107, 114, 128);
+    private static final Color BORDE = new Color(225, 230, 237);
+
+    private static final Color ROJO = new Color(220, 53, 69);
+    private static final Color ROJO_OSCURO = new Color(176, 32, 48);
+    private static final Color ROJO_CLARO = new Color(253, 236, 238);
+    private static final Color ROJO_BORDE = new Color(246, 200, 205);
+
+    private void aplicarEstilosGastos() {
+
+        // ---------- FONDOS GENERALES ----------
+        getContentPane().setBackground(FONDO);
+        jPanelGeneral.setBackground(FONDO);
+        jPanelCuerpo.setBackground(FONDO);
+        jPanelAddGastos.setBackground(FONDO);
+
+        // ---------- CABECERA ROJA ----------
+        jPanelCabecera.setBackground(ROJO);
+        jPanelCabecera.setBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createMatteBorder(0, 0, 4, 0, ROJO_OSCURO),
+                        BorderFactory.createEmptyBorder(14, 20, 14, 20)
+                )
+        );
+
+        lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 30));
+        lblTitulo.setForeground(Color.WHITE);
+        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+
+        lblSubtitulo.setFont(new Font("SansSerif", Font.PLAIN, 15));
+        lblSubtitulo.setForeground(new Color(255, 225, 229));
+        lblSubtitulo.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // ---------- COLUMNA DE ETIQUETAS (tinte rojo suave) ----------
+        jPanelConceptos.setBackground(ROJO_CLARO);
+        jPanelConceptos.setBorder(
+                BorderFactory.createMatteBorder(0, 0, 0, 1, ROJO_BORDE)
+        );
+
+        JPanel[] panelesEtiqueta = {
+            jPanelConcepto, jPanelImporte, jPanelCategoria, jPanelFecha, jPanelNotas
+        };
+        for (JPanel p : panelesEtiqueta) {
+            p.setBackground(ROJO_CLARO);
+            p.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, ROJO_BORDE));
+        }
+
+        JLabel[] etiquetas = {
+            lblConcepto, lblImporte, lblCategoria, Fecha, lblNotas
+        };
+        for (JLabel l : etiquetas) {
+            estilizarEtiqueta(l);
+        }
+
+        lblConcepto.setText("Concepto");
+        lblImporte.setText("Importe (€)");
+        lblCategoria.setText("Categoría");
+        Fecha.setText("Fecha");
+        lblNotas.setText("Notas adicionales");
+
+        // ---------- COLUMNA DE CAMPOS (blanca) ----------
+        jPanelInsertar.setBackground(BLANCO);
+
+        JPanel[] panelesCampo = {
+            jPanel1, jPanel2, jPanel4, jPanel5, jPanelTextArea,
+            jPanelLblDia, jPanelSpinnerDia,
+            jPanelLblMes, jPanelSpinnerMes,
+            jPanelLblAnio, jPanelAnio
+        };
+        for (JPanel p : panelesCampo) {
+            p.setBackground(BLANCO);
+        }
+
+        // Etiquetas Día / Mes / Año
+        JLabel[] etiquetasFecha = {jLabelDia, lblMes, LblAnio};
+        for (JLabel l : etiquetasFecha) {
+            l.setFont(new Font("SansSerif", Font.BOLD, 12));
+            l.setForeground(ROJO_OSCURO);
+            l.setHorizontalAlignment(SwingConstants.CENTER);
+        }
+        jLabelDia.setText("Día");
+        LblAnio.setText("Año");
+
+        // Campos de texto con placeholder
+        estilizarCampoTexto(jTextField1);
+        estilizarCampoTexto(jTextField2);
+        configurarPlaceholder(jTextField1, "Motivo del gasto");
+        configurarPlaceholder(jTextField2, "Cantidad");
+
+        // Combo y spinners
+        estilizarCombo(jComboBox1);
+        estilizarSpinner(SpinnerDia);
+        estilizarSpinner(SpinnerMes);
+        estilizarSpinner(SpinnerAnio);
+
+        // Área de notas
+        NotasAdd.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        NotasAdd.setForeground(TEXTO);
+        NotasAdd.setBackground(BLANCO);
+        NotasAdd.setLineWrap(true);
+        NotasAdd.setWrapStyleWord(true);
+        NotasAdd.setMargin(new java.awt.Insets(8, 10, 8, 10));
+        NotasAdd.setCaretColor(ROJO);
+        NotasAdd.setSelectionColor(ROJO_BORDE);
+        NotasAdd.setSelectedTextColor(TEXTO);
+
+        TextAreaNotasAdd.setBorder(BorderFactory.createLineBorder(BORDE, 1));
+        TextAreaNotasAdd.getViewport().setBackground(BLANCO);
+        estilizarScrollBar(TextAreaNotasAdd);
+
+        NotasAdd.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                TextAreaNotasAdd.setBorder(BorderFactory.createLineBorder(ROJO, 2));
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                TextAreaNotasAdd.setBorder(BorderFactory.createLineBorder(BORDE, 1));
+            }
+        });
+
+        // ---------- PIE CON BOTONES ----------
+        jPanelBotones.setBackground(BLANCO);
+        jPanelBotones.setBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createMatteBorder(1, 0, 0, 0, BORDE),
+                        BorderFactory.createEmptyBorder(10, 15, 10, 15)
+                )
+        );
+
+        jPanelOrdenacionIzq.setBackground(BLANCO);
+        jPanelOrdenacionDrch.setBackground(BLANCO);
+        jPanelBtnCancelar.setBackground(BLANCO);
+        jPanelBtnAceptar.setBackground(BLANCO);
+
+        btnAceptar.setText("Guardar gasto");
+        btnCancelar.setText("Cancelar");
+
+        estilizarBoton(btnAceptar, true);    // relleno rojo
+        estilizarBoton(btnCancelar, false);  // contorno rojo
+    }
+
+    // -----------------------------------------------------------------
+    // HELPERS
+    // -----------------------------------------------------------------
+    private void estilizarEtiqueta(JLabel label) {
+        label.setFont(new Font("SansSerif", Font.BOLD, 14));
+        label.setForeground(ROJO_OSCURO);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+    }
+
+    private void estilizarCampoTexto(JTextField campo) {
+        campo.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        campo.setForeground(TEXTO);
+        campo.setBackground(BLANCO);
+        campo.setCaretColor(ROJO);
+        campo.setSelectionColor(ROJO_BORDE);
+        campo.setSelectedTextColor(TEXTO);
+        campo.setBorder(bordeCampo(false));
+
+        campo.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                campo.setBorder(bordeCampo(true));
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                campo.setBorder(bordeCampo(false));
+            }
+        });
+    }
+
+    private javax.swing.border.Border bordeCampo(boolean enfocado) {
+        return BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(enfocado ? ROJO : BORDE, enfocado ? 2 : 1),
+                BorderFactory.createEmptyBorder(
+                        enfocado ? 3 : 4, enfocado ? 7 : 8,
+                        enfocado ? 3 : 4, enfocado ? 7 : 8)
+        );
+    }
+
+    private void estilizarCombo(JComboBox<?> combo) {
+        combo.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        combo.setForeground(TEXTO);
+        combo.setBackground(BLANCO);
+        combo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+
+    private void estilizarSpinner(JSpinner spinner) {
+
+        // UI propia con flechas personalizadas
+        spinner.setUI(new BasicSpinnerUI() {
+            @Override
+            protected Component createNextButton() {
+                JButton b = crearFlechaSpinner(SwingConstants.NORTH);
+                b.setName("Spinner.nextButton");
+                installNextButtonListeners(b);
+                return b;
+            }
+
+            @Override
+            protected Component createPreviousButton() {
+                JButton b = crearFlechaSpinner(SwingConstants.SOUTH);
+                b.setName("Spinner.previousButton");
+                installPreviousButtonListeners(b);
+                return b;
+            }
+        });
+
+        // El borde se aplica DESPUÉS de setUI, si no se pierde
+        spinner.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        spinner.setBackground(BLANCO);
+        spinner.setBorder(BorderFactory.createLineBorder(BORDE, 1));
+
+        JComponent editor = spinner.getEditor();
+        if (editor instanceof JSpinner.DefaultEditor) {
+            JTextField tf = ((JSpinner.DefaultEditor) editor).getTextField();
+            tf.setFont(new Font("SansSerif", Font.BOLD, 13));
+            tf.setForeground(TEXTO);
+            tf.setBackground(BLANCO);
+            tf.setCaretColor(ROJO);
+            tf.setSelectionColor(ROJO_BORDE);
+            tf.setSelectedTextColor(TEXTO);
+            tf.setHorizontalAlignment(SwingConstants.CENTER);
+            tf.setBorder(BorderFactory.createEmptyBorder(3, 4, 3, 4));
+
+            tf.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    spinner.setBorder(BorderFactory.createLineBorder(ROJO, 2));
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    spinner.setBorder(BorderFactory.createLineBorder(BORDE, 1));
+                }
+            });
+        }
+    }
+
+    /**
+     * Botón de flecha (arriba/abajo) para los spinners.
+     */
+    private JButton crearFlechaSpinner(int direccion) {
+
+        JButton boton = new JButton() {
+            @Override
+            protected void paintComponent(Graphics g) {
+
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(
+                        RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON
+                );
+
+                boolean pulsado = getModel().isPressed();
+                boolean hover = getModel().isRollover();
+
+                Color fondoBtn = ROJO_CLARO;
+                if (pulsado) {
+                    fondoBtn = ROJO;
+                } else if (hover) {
+                    fondoBtn = ROJO_BORDE;
+                }
+                g2.setColor(fondoBtn);
+                g2.fillRect(0, 0, getWidth(), getHeight());
+
+                g2.setColor(ROJO_BORDE);
+                g2.drawLine(0, 0, 0, getHeight());
+
+                int cx = getWidth() / 2;
+                int cy = getHeight() / 2;
+                Polygon flecha = new Polygon();
+                if (direccion == SwingConstants.NORTH) {
+                    flecha.addPoint(cx - 4, cy + 2);
+                    flecha.addPoint(cx + 4, cy + 2);
+                    flecha.addPoint(cx, cy - 2);
+                } else {
+                    flecha.addPoint(cx - 4, cy - 2);
+                    flecha.addPoint(cx + 4, cy - 2);
+                    flecha.addPoint(cx, cy + 2);
+                }
+                g2.setColor(pulsado ? Color.WHITE : ROJO_OSCURO);
+                g2.fillPolygon(flecha);
+
+                g2.dispose();
+            }
+        };
+
+        boton.setPreferredSize(new Dimension(20, 10));
+        boton.setBorder(BorderFactory.createEmptyBorder());
+        boton.setContentAreaFilled(false);
+        boton.setFocusable(false);
+        boton.setRolloverEnabled(true);
+        boton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        return boton;
+    }
+
+    /**
+     * Texto gris de ayuda que desaparece al enfocar y vuelve si queda vacío.
+     */
+    private void configurarPlaceholder(JTextComponent campo, String placeholder) {
+        campo.setText(placeholder);
+        campo.setForeground(SECUNDARIO);
+
+        campo.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (campo.getText().equals(placeholder)) {
+                    campo.setText("");
+                    campo.setForeground(TEXTO);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (campo.getText().trim().isEmpty()) {
+                    campo.setText(placeholder);
+                    campo.setForeground(SECUNDARIO);
+                }
+            }
+        });
+    }
+
+    /**
+     * Botón redondeado con hover/pressed. relleno = true -> fondo rojo, texto
+     * blanco relleno = false -> fondo blanco, borde y texto rojos
+     */
+    private void estilizarBoton(JButton boton, boolean relleno) {
+
+        boton.setUI(new BasicButtonUI() {
+
+            @Override
+            public void paint(Graphics g, JComponent c) {
+
+                JButton b = (JButton) c;
+                Graphics2D g2 = (Graphics2D) g.create();
+
+                g2.setRenderingHint(
+                        RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON
+                );
+
+                boolean pressed = b.getModel().isPressed();
+                boolean hover = b.getModel().isRollover();
+
+                if (relleno) {
+                    Color color = ROJO;
+                    if (pressed) {
+                        color = ROJO_OSCURO;
+                    } else if (hover) {
+                        color = ROJO.brighter();
+                    }
+                    g2.setColor(color);
+                    g2.fillRoundRect(0, 0, b.getWidth(), b.getHeight(), 18, 18);
+                } else {
+                    Color fondoBtn = BLANCO;
+                    if (pressed) {
+                        fondoBtn = ROJO_BORDE;
+                    } else if (hover) {
+                        fondoBtn = ROJO_CLARO;
+                    }
+                    g2.setColor(fondoBtn);
+                    g2.fillRoundRect(0, 0, b.getWidth(), b.getHeight(), 18, 18);
+
+                    g2.setColor(ROJO);
+                    g2.drawRoundRect(0, 0, b.getWidth() - 1, b.getHeight() - 1, 18, 18);
+                }
+
+                g2.dispose();
+
+                super.paint(g, c);
+            }
+        });
+
+        boton.setContentAreaFilled(false);
+        boton.setOpaque(false);
+        boton.setBorderPainted(false);
+        boton.setFocusPainted(false);
+        boton.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
+        boton.setForeground(relleno ? Color.WHITE : ROJO);
+        boton.setFont(new Font("SansSerif", Font.BOLD, 12));
+        boton.setPreferredSize(new Dimension(150, 38));
+        boton.setRolloverEnabled(true);
+        boton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+
+    /**
+     * Barra de scroll fina: sin flechas, pista blanca y "pulgar" redondeado que
+     * se enrojece al pasar el ratón o arrastrar.
+     */
+    private void estilizarScrollBar(JScrollPane scroll) {
+
+        JScrollBar barra = scroll.getVerticalScrollBar();
+        barra.setPreferredSize(new Dimension(12, 0));
+        barra.setBackground(BLANCO);
+        barra.setOpaque(true);
+        barra.setUnitIncrement(14);
+
+        barra.setUI(new BasicScrollBarUI() {
+
+            @Override
+            protected void configureScrollBarColors() {
+                thumbColor = ROJO_BORDE;
+                trackColor = BLANCO;
+            }
+
+            @Override
+            protected JButton createDecreaseButton(int orientation) {
+                return botonVacio();
+            }
+
+            @Override
+            protected JButton createIncreaseButton(int orientation) {
+                return botonVacio();
+            }
+
+            @Override
+            protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
+                g.setColor(BLANCO);
+                g.fillRect(r.x, r.y, r.width, r.height);
+            }
+
+            @Override
+            protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
+
+                if (r.isEmpty() || !scrollbar.isEnabled()) {
+                    return;
+                }
+
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(
+                        RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON
+                );
+
+                Color color = ROJO_BORDE;
+                if (isDragging) {
+                    color = ROJO_OSCURO;
+                } else if (isThumbRollover()) {
+                    color = ROJO;
+                }
+
+                g2.setColor(color);
+                g2.fillRoundRect(r.x + 2, r.y + 2, r.width - 4, r.height - 4, 8, 8);
+                g2.dispose();
+            }
+
+            private JButton botonVacio() {
+                JButton b = new JButton();
+                b.setPreferredSize(new Dimension(0, 0));
+                b.setMinimumSize(new Dimension(0, 0));
+                b.setMaximumSize(new Dimension(0, 0));
+                return b;
+            }
+        });
+    }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
