@@ -466,6 +466,11 @@ public class InterfazBienvenida extends javax.swing.JFrame {
         jPanelGasto.add(lblDescripcionGastos);
 
         btnGastos.setText("Gestionar gastos");
+        btnGastos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGastosActionPerformed(evt);
+            }
+        });
         jPanelBotonGastos.add(btnGastos);
 
         jPanelGasto.add(jPanelBotonGastos);
@@ -524,6 +529,17 @@ public class InterfazBienvenida extends javax.swing.JFrame {
     private void btnResumenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResumenActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnResumenActionPerformed
+
+    private void btnGastosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGastosActionPerformed
+        
+        InterfazGastos gastos = new InterfazGastos();
+
+                gastos.setSize(getSize());
+                gastos.setLocationRelativeTo(null);
+                gastos.setVisible(true);
+
+                dispose();
+    }//GEN-LAST:event_btnGastosActionPerformed
 
     /**
      * @param args the command line arguments

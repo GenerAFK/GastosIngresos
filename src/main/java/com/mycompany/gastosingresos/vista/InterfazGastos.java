@@ -40,6 +40,18 @@ public class InterfazGastos extends javax.swing.JFrame {
         
         initComponents();
         
+        SpinnerDia.setModel(
+                new javax.swing.SpinnerNumberModel(1, 1, 30, 1)
+        );
+
+        SpinnerMes.setModel(
+                new javax.swing.SpinnerNumberModel(1, 1, 12, 1)
+        );
+
+        SpinnerAnio.setModel(
+                new javax.swing.SpinnerNumberModel(2026, 2026, 2100, 1)
+        );
+        
         getContentPane().setLayout(new java.awt.BorderLayout());
         getContentPane().add(jPanelGeneral, java.awt.BorderLayout.CENTER);
         
@@ -119,7 +131,7 @@ public class InterfazGastos extends javax.swing.JFrame {
         jPanelInsertar.setBackground(BLANCO);
 
         JPanel[] panelesCampo = {
-            jPanel1, jPanel2, jPanel4, jPanel5, jPanelTextArea,
+            jPaneltfMotivo, jPaneltfCantidad, jPanelcbCategoria, jPanelSpinFecha, jPanelTextArea,
             jPanelLblDia, jPanelSpinnerDia,
             jPanelLblMes, jPanelSpinnerMes,
             jPanelLblAnio, jPanelAnio
@@ -139,13 +151,13 @@ public class InterfazGastos extends javax.swing.JFrame {
         LblAnio.setText("Año");
 
         // Campos de texto con placeholder
-        estilizarCampoTexto(jTextField1);
-        estilizarCampoTexto(jTextField2);
-        configurarPlaceholder(jTextField1, "Motivo del gasto");
-        configurarPlaceholder(jTextField2, "Cantidad");
+        estilizarCampoTexto(textFieldMotivo);
+        estilizarCampoTexto(textFieldImporte);
+        configurarPlaceholder(textFieldMotivo, "Motivo del gasto");
+        configurarPlaceholder(textFieldImporte, "Cantidad");
 
         // Combo y spinners
-        estilizarCombo(jComboBox1);
+        estilizarCombo(cbCategoria);
         estilizarSpinner(SpinnerDia);
         estilizarSpinner(SpinnerMes);
         estilizarSpinner(SpinnerAnio);
@@ -551,13 +563,13 @@ public class InterfazGastos extends javax.swing.JFrame {
         jPanelNotas = new javax.swing.JPanel();
         lblNotas = new javax.swing.JLabel();
         jPanelInsertar = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jPanel5 = new javax.swing.JPanel();
+        jPaneltfMotivo = new javax.swing.JPanel();
+        textFieldMotivo = new javax.swing.JTextField();
+        jPaneltfCantidad = new javax.swing.JPanel();
+        textFieldImporte = new javax.swing.JTextField();
+        jPanelcbCategoria = new javax.swing.JPanel();
+        cbCategoria = new javax.swing.JComboBox<>();
+        jPanelSpinFecha = new javax.swing.JPanel();
         jPanelLblDia = new javax.swing.JPanel();
         jLabelDia = new javax.swing.JLabel();
         jPanelSpinnerDia = new javax.swing.JPanel();
@@ -639,6 +651,7 @@ public class InterfazGastos extends javax.swing.JFrame {
         jPanelOrdenacionDrch.add(jPanelBtnCancelar);
 
         btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(this::btnAceptarActionPerformed);
 
         javax.swing.GroupLayout jPanelBtnAceptarLayout = new javax.swing.GroupLayout(jPanelBtnAceptar);
         jPanelBtnAceptar.setLayout(jPanelBtnAceptarLayout);
@@ -800,79 +813,79 @@ public class InterfazGastos extends javax.swing.JFrame {
 
         jPanelInsertar.setLayout(new java.awt.GridLayout(5, 1));
 
-        jTextField1.setText("Motivo");
+        textFieldMotivo.setText("Motivo");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPaneltfMotivoLayout = new javax.swing.GroupLayout(jPaneltfMotivo);
+        jPaneltfMotivo.setLayout(jPaneltfMotivoLayout);
+        jPaneltfMotivoLayout.setHorizontalGroup(
+            jPaneltfMotivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 408, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(jPaneltfMotivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPaneltfMotivoLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+                    .addComponent(textFieldMotivo, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
                     .addGap(144, 144, 144)))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPaneltfMotivoLayout.setVerticalGroup(
+            jPaneltfMotivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 90, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPaneltfMotivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPaneltfMotivoLayout.createSequentialGroup()
                     .addGap(32, 32, 32)
-                    .addComponent(jTextField1)
+                    .addComponent(textFieldMotivo)
                     .addGap(32, 32, 32)))
         );
 
-        jPanelInsertar.add(jPanel1);
+        jPanelInsertar.add(jPaneltfMotivo);
 
-        jTextField2.setText("Cantidad");
-        jTextField2.setToolTipText("");
+        textFieldImporte.setText("Cantidad");
+        textFieldImporte.setToolTipText("");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPaneltfCantidadLayout = new javax.swing.GroupLayout(jPaneltfCantidad);
+        jPaneltfCantidad.setLayout(jPaneltfCantidadLayout);
+        jPaneltfCantidadLayout.setHorizontalGroup(
+            jPaneltfCantidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 408, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(jPaneltfCantidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPaneltfCantidadLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+                    .addComponent(textFieldImporte, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
                     .addGap(144, 144, 144)))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPaneltfCantidadLayout.setVerticalGroup(
+            jPaneltfCantidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 90, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGroup(jPaneltfCantidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPaneltfCantidadLayout.createSequentialGroup()
                     .addGap(32, 32, 32)
-                    .addComponent(jTextField2)
+                    .addComponent(textFieldImporte)
                     .addGap(32, 32, 32)))
         );
 
-        jPanelInsertar.add(jPanel2);
+        jPanelInsertar.add(jPaneltfCantidad);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alquiler/Hipoteca", "Agua", "Electricidad", "Telefono", "Plataformas Streaming", "Otros" }));
+        cbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alquiler/Hipoteca", "Agua", "Electricidad", "Telefono", "Plataformas Streaming", "Otros" }));
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelcbCategoriaLayout = new javax.swing.GroupLayout(jPanelcbCategoria);
+        jPanelcbCategoria.setLayout(jPanelcbCategoriaLayout);
+        jPanelcbCategoriaLayout.setHorizontalGroup(
+            jPanelcbCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelcbCategoriaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jComboBox1, 0, 150, Short.MAX_VALUE)
+                .addComponent(cbCategoria, 0, 150, Short.MAX_VALUE)
                 .addGap(252, 252, 252))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        jPanelcbCategoriaLayout.setVerticalGroup(
+            jPanelcbCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelcbCategoriaLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
-                .addComponent(jComboBox1)
+                .addComponent(cbCategoria)
                 .addGap(29, 29, 29))
         );
 
-        jPanelInsertar.add(jPanel4);
+        jPanelInsertar.add(jPanelcbCategoria);
 
-        jPanel5.setLayout(new java.awt.GridLayout(1, 6));
+        jPanelSpinFecha.setLayout(new java.awt.GridLayout(1, 6));
 
         jLabelDia.setText("Dia");
 
@@ -897,7 +910,7 @@ public class InterfazGastos extends javax.swing.JFrame {
                     .addGap(0, 37, Short.MAX_VALUE)))
         );
 
-        jPanel5.add(jPanelLblDia);
+        jPanelSpinFecha.add(jPanelLblDia);
 
         javax.swing.GroupLayout jPanelSpinnerDiaLayout = new javax.swing.GroupLayout(jPanelSpinnerDia);
         jPanelSpinnerDia.setLayout(jPanelSpinnerDiaLayout);
@@ -920,7 +933,7 @@ public class InterfazGastos extends javax.swing.JFrame {
                     .addGap(0, 32, Short.MAX_VALUE)))
         );
 
-        jPanel5.add(jPanelSpinnerDia);
+        jPanelSpinFecha.add(jPanelSpinnerDia);
 
         lblMes.setText("Mes");
 
@@ -945,7 +958,7 @@ public class InterfazGastos extends javax.swing.JFrame {
                     .addGap(0, 37, Short.MAX_VALUE)))
         );
 
-        jPanel5.add(jPanelLblMes);
+        jPanelSpinFecha.add(jPanelLblMes);
 
         javax.swing.GroupLayout jPanelSpinnerMesLayout = new javax.swing.GroupLayout(jPanelSpinnerMes);
         jPanelSpinnerMes.setLayout(jPanelSpinnerMesLayout);
@@ -968,7 +981,7 @@ public class InterfazGastos extends javax.swing.JFrame {
                     .addGap(0, 32, Short.MAX_VALUE)))
         );
 
-        jPanel5.add(jPanelSpinnerMes);
+        jPanelSpinFecha.add(jPanelSpinnerMes);
 
         LblAnio.setText("Año");
 
@@ -993,7 +1006,7 @@ public class InterfazGastos extends javax.swing.JFrame {
                     .addGap(0, 37, Short.MAX_VALUE)))
         );
 
-        jPanel5.add(jPanelLblAnio);
+        jPanelSpinFecha.add(jPanelLblAnio);
 
         javax.swing.GroupLayout jPanelAnioLayout = new javax.swing.GroupLayout(jPanelAnio);
         jPanelAnio.setLayout(jPanelAnioLayout);
@@ -1016,11 +1029,11 @@ public class InterfazGastos extends javax.swing.JFrame {
                     .addGap(0, 32, Short.MAX_VALUE)))
         );
 
-        jPanel5.add(jPanelAnio);
+        jPanelSpinFecha.add(jPanelAnio);
 
-        jPanelInsertar.add(jPanel5);
+        jPanelInsertar.add(jPanelSpinFecha);
 
-        jPanelTextArea.setLayout(new java.awt.GridLayout());
+        jPanelTextArea.setLayout(new java.awt.GridLayout(1, 0));
 
         TextAreaNotasAdd.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -1063,8 +1076,26 @@ public class InterfazGastos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        
+        InterfazBienvenida bienvenida = new InterfazBienvenida();
+
+        bienvenida.setSize(getSize());
+        bienvenida.setLocationRelativeTo(null);
+        bienvenida.setVisible(true);
+
+        dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+         
+        String concepto = textFieldMotivo.getText();
+        String cantidad = textFieldImporte.getText();
+        String categoria = (String) cbCategoria.getSelectedItem();
+
+        int dia = (int) SpinnerDia.getValue();
+        int mes = (int) SpinnerMes.getValue();
+        int anio = (int) SpinnerAnio.getValue();
+    }//GEN-LAST:event_btnAceptarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1101,12 +1132,8 @@ public class InterfazGastos extends javax.swing.JFrame {
     private javax.swing.JScrollPane TextAreaNotasAdd;
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cbCategoria;
     private javax.swing.JLabel jLabelDia;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanelAddGastos;
     private javax.swing.JPanel jPanelAnio;
     private javax.swing.JPanel jPanelBotones;
@@ -1127,11 +1154,13 @@ public class InterfazGastos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelNotas;
     private javax.swing.JPanel jPanelOrdenacionDrch;
     private javax.swing.JPanel jPanelOrdenacionIzq;
+    private javax.swing.JPanel jPanelSpinFecha;
     private javax.swing.JPanel jPanelSpinnerDia;
     private javax.swing.JPanel jPanelSpinnerMes;
     private javax.swing.JPanel jPanelTextArea;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JPanel jPanelcbCategoria;
+    private javax.swing.JPanel jPaneltfCantidad;
+    private javax.swing.JPanel jPaneltfMotivo;
     private javax.swing.JLabel lblCategoria;
     private javax.swing.JLabel lblConcepto;
     private javax.swing.JLabel lblImporte;
@@ -1139,5 +1168,7 @@ public class InterfazGastos extends javax.swing.JFrame {
     private javax.swing.JLabel lblNotas;
     private javax.swing.JLabel lblSubtitulo;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JTextField textFieldImporte;
+    private javax.swing.JTextField textFieldMotivo;
     // End of variables declaration//GEN-END:variables
 }
