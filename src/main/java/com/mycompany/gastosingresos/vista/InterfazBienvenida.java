@@ -523,7 +523,14 @@ public class InterfazBienvenida extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresosActionPerformed
-        // TODO add your handling code here:
+        
+        InterfazIngresos ingresos = new InterfazIngresos();
+
+                ingresos.setSize(getSize());
+                ingresos.setLocationRelativeTo(null);
+                ingresos.setVisible(true);
+
+                dispose();
     }//GEN-LAST:event_btnIngresosActionPerformed
 
     private void btnResumenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResumenActionPerformed

@@ -1,9 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.mycompany.gastosingresos.vista;
 
+import com.mycompany.gastosingresos.config.ConfiguracionVentanas;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -873,6 +871,11 @@ public class InterfazIngresos extends javax.swing.JFrame {
         pnlInferior.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
         pnlInferior.add(btnCancelar);
 
         btnGuardar.setText("Guardar");
@@ -887,6 +890,17 @@ public class InterfazIngresos extends javax.swing.JFrame {
     private void txtfConceptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfConceptoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtfConceptoActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        
+        InterfazBienvenida bienvenida = new InterfazBienvenida();
+
+        bienvenida.setSize(getSize());
+        bienvenida.setLocationRelativeTo(null);
+        bienvenida.setVisible(true);
+
+        dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
