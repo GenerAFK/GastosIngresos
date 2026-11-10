@@ -1,6 +1,8 @@
 package com.mycompany.gastosingresos.vista;
 
 import com.mycompany.gastosingresos.config.ConfiguracionVentanas;
+import com.mycompany.gastosingresos.controlador.ControladorGastos;
+import com.mycompany.gastosingresos.modelo.Gasto;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -13,11 +15,15 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.math.BigDecimal;
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -32,16 +38,17 @@ import javax.swing.text.JTextComponent;
 public class InterfazGastos extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InterfazGastos.class.getName());
-
+    private ControladorGastos controlador = new ControladorGastos();
     /**
      * Creates new form InterfazGastos
      */
     public InterfazGastos() {
         
+        
         initComponents();
         
         SpinnerDia.setModel(
-                new javax.swing.SpinnerNumberModel(1, 1, 30, 1)
+                new javax.swing.SpinnerNumberModel(1, 1, 31, 1)
         );
 
         SpinnerMes.setModel(
@@ -62,6 +69,19 @@ public class InterfazGastos extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }
+    
+    private void limpiar() {
+    textFieldMotivo.setText("Motivo del gasto");
+    
+    textFieldImporte.setText("Cantidad");
+    
+    cbCategoria.setSelectedIndex(0);
+    NotasAdd.setText("");
+
+    SpinnerDia.setValue(1);
+    SpinnerMes.setValue(1);
+    SpinnerAnio.setValue(2026);
+}
     
     // ---------- PALETA (compartida con el resto de la app + rojos) ----------
     private static final Color FONDO = new Color(245, 247, 250);
@@ -650,7 +670,7 @@ public class InterfazGastos extends javax.swing.JFrame {
 
         jPanelOrdenacionDrch.add(jPanelBtnCancelar);
 
-        btnAceptar.setText("Aceptar");
+        btnAceptar.setText("Guardar Gasto");
         btnAceptar.addActionListener(this::btnAceptarActionPerformed);
 
         javax.swing.GroupLayout jPanelBtnAceptarLayout = new javax.swing.GroupLayout(jPanelBtnAceptar);
@@ -660,9 +680,9 @@ public class InterfazGastos extends javax.swing.JFrame {
             .addGap(0, 203, Short.MAX_VALUE)
             .addGroup(jPanelBtnAceptarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelBtnAceptarLayout.createSequentialGroup()
-                    .addGap(0, 63, Short.MAX_VALUE)
+                    .addGap(0, 47, Short.MAX_VALUE)
                     .addComponent(btnAceptar)
-                    .addGap(0, 64, Short.MAX_VALUE)))
+                    .addGap(0, 47, Short.MAX_VALUE)))
         );
         jPanelBtnAceptarLayout.setVerticalGroup(
             jPanelBtnAceptarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1012,21 +1032,16 @@ public class InterfazGastos extends javax.swing.JFrame {
         jPanelAnio.setLayout(jPanelAnioLayout);
         jPanelAnioLayout.setHorizontalGroup(
             jPanelAnioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 68, Short.MAX_VALUE)
-            .addGroup(jPanelAnioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelAnioLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(SpinnerAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAnioLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(SpinnerAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanelAnioLayout.setVerticalGroup(
             jPanelAnioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 90, Short.MAX_VALUE)
-            .addGroup(jPanelAnioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelAnioLayout.createSequentialGroup()
-                    .addGap(0, 32, Short.MAX_VALUE)
-                    .addComponent(SpinnerAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 32, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAnioLayout.createSequentialGroup()
+                .addContainerGap(33, Short.MAX_VALUE)
+                .addComponent(SpinnerAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
 
         jPanelSpinFecha.add(jPanelAnio);
@@ -1055,12 +1070,12 @@ public class InterfazGastos extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 816, Short.MAX_VALUE)
+            .addGap(0, 837, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 10, Short.MAX_VALUE)
                     .addComponent(jPanelGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 816, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 11, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1087,14 +1102,50 @@ public class InterfazGastos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-         
+
         String concepto = textFieldMotivo.getText();
         String cantidad = textFieldImporte.getText();
         String categoria = (String) cbCategoria.getSelectedItem();
+        String notas = NotasAdd.getText();
 
         int dia = (int) SpinnerDia.getValue();
         int mes = (int) SpinnerMes.getValue();
         int anio = (int) SpinnerAnio.getValue();
+
+        // Si el campo aún tiene el placeholder, lo tratamos como vacío
+        if (concepto.equals("Motivo del gasto")) {
+            concepto = "";
+        }
+
+        try {
+            // Convertimos los datos al tipo que espera el controlador
+            BigDecimal importe = new BigDecimal(cantidad.trim().replace(",", "."));
+            LocalDate fecha = LocalDate.of(anio, mes, dia);
+
+            Gasto gasto = controlador.addGasto(concepto, importe, categoria, fecha, notas);
+
+            JOptionPane.showMessageDialog(this,
+                    "Gasto añadido correctamente (id " + gasto.getId() + ").",
+                    "Gasto guardado", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    "El importe debe ser un número válido (por ejemplo 45.80).",
+                    "Importe incorrecto", JOptionPane.ERROR_MESSAGE);
+
+        } catch (DateTimeException e) {
+            JOptionPane.showMessageDialog(this,
+                    "La fecha no es válida (por ejemplo, el 30 de febrero no existe).",
+                    "Fecha incorrecta", JOptionPane.ERROR_MESSAGE);
+
+        } catch (IllegalArgumentException e) {
+            // Errores de validación del controlador
+            JOptionPane.showMessageDialog(this,
+                    e.getMessage(),
+                    "Datos incorrectos", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        limpiar();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     /**

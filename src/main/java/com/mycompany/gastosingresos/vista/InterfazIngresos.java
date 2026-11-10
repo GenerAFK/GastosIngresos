@@ -2,6 +2,8 @@
 package com.mycompany.gastosingresos.vista;
 
 import com.mycompany.gastosingresos.config.ConfiguracionVentanas;
+import com.mycompany.gastosingresos.controlador.ControladorIngresos;
+import com.mycompany.gastosingresos.modelo.Ingreso;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -20,12 +22,16 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.math.BigDecimal;
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -45,6 +51,7 @@ import javax.swing.text.JTextComponent;
 public class InterfazIngresos extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InterfazIngresos.class.getName());
+    private final ControladorIngresos controlador = new ControladorIngresos();
 
     /**
      * Creates new form InterfazIngresos
@@ -729,7 +736,7 @@ public class InterfazIngresos extends javax.swing.JFrame {
                 .addGroup(pnlSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblSubtitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(189, Short.MAX_VALUE))
+                .addContainerGap(213, Short.MAX_VALUE))
         );
         pnlSuperiorLayout.setVerticalGroup(
             pnlSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -878,7 +885,12 @@ public class InterfazIngresos extends javax.swing.JFrame {
         });
         pnlInferior.add(btnCancelar);
 
-        btnGuardar.setText("Guardar");
+        btnGuardar.setText("Guardar Ingreso");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
         pnlInferior.add(btnGuardar);
 
         getContentPane().add(pnlInferior, java.awt.BorderLayout.SOUTH);
@@ -886,12 +898,60 @@ public class InterfazIngresos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        
+        String concepto = txtfConcepto.getText();
+        if (concepto.equals("Motivo del ingreso")) {
+            concepto = "";
+        }
 
-    private void txtfConceptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfConceptoActionPerformed
+        String categoria = (String) comboxCategoria.getSelectedItem();
+        String notas = txtAreaNotas.getText();
+        Number valorImporte = (Number) spinImporte.getValue();
+        int dia = ((Number) spinDia.getValue()).intValue();
+        int mes = ((Number) spinMes.getValue()).intValue();
+        int anio = ((Number) spinAnio.getValue()).intValue();
+
+        try {
+            BigDecimal importe = new BigDecimal(valorImporte.toString());
+            LocalDate fecha = LocalDate.of(anio, mes, dia);
+            Ingreso ingreso = controlador.addIngreso(concepto, importe, categoria, fecha, notas);
+
+            JOptionPane.showMessageDialog(this,
+                    "Ingreso añadido correctamente (id " + ingreso.getId() + ").",
+                    "Ingreso guardado", JOptionPane.INFORMATION_MESSAGE);
+
+            txtfConcepto.setText("Motivo del ingreso");
+            txtfConcepto.setForeground(SECUNDARIO);
+            spinImporte.setValue(0.0f);
+            txtAreaNotas.setText("");
+            spinDia.setValue(1);
+            spinMes.setValue(1);
+            spinAnio.setValue(2026);
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    "El importe debe ser un número válido (por ejemplo 45.80).",
+                    "Importe incorrecto", JOptionPane.ERROR_MESSAGE);
+
+        } catch (DateTimeException e) {
+            JOptionPane.showMessageDialog(this,
+                    "La fecha no es válida (por ejemplo, el 30 de febrero no existe).",
+                    "Fecha incorrecta", JOptionPane.ERROR_MESSAGE);
+
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this,
+                    e.getMessage(),
+                    "Datos incorrectos", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+
+    private void txtfConceptoActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtfConceptoActionPerformed
+    }
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {                                            
         
         InterfazBienvenida bienvenida = new InterfazBienvenida();
 
@@ -900,7 +960,7 @@ public class InterfazIngresos extends javax.swing.JFrame {
         bienvenida.setVisible(true);
 
         dispose();
-    }//GEN-LAST:event_btnCancelarActionPerformed
+    }
 
     /**
      * @param args the command line arguments
